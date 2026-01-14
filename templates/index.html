@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WTTM – Wireless Threat Terrain Mapper</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="app">
+
+    <div class="map-section">
+        <h2>Wireless Threat Terrain Map</h2>
+        <div id="grid" class="grid"></div>
+    </div>
+
+    <div class="info-section">
+        <h2>Detected Risks</h2>
+        <div id="details">
+            <p>Select a cell to view details</p>
+        </div>
+        <canvas id="rssiChart" width="300" height="150"></canvas>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
