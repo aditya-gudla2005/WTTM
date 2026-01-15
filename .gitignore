@@ -1,0 +1,7 @@
+# Ignore generated report files
+reports/
+WTTM_Report.pdf
+*.png
+
+# Ignore Python cache
+__pycache__/
