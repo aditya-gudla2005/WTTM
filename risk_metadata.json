@@ -1,14 +1,21 @@
 [
     {
         "position": "P1",
-        "risk": 35,
-        "ssid": "Pramodjio4g1stfloor",
-        "threats": [],
+        "risk": 65,
+        "ssid": "5067",
+        "threats": [
+            "Channel Overlap",
+            "Evil Twin"
+        ],
         "metrics": {
-            "max_rssi": -67.0,
-            "ssid_count": 4,
-            "channel_overlap": 2,
-            "ssid_repeats": 1
+            "max_rssi": -71.0,
+            "ssid_count": 1,
+            "channel_overlap": 76,
+            "ssid_repeats": 76
+        },
+        "signal_spike": {
+            "detected": false,
+            "max_spike": 0
         }
     },
     {
@@ -17,101 +24,147 @@
         "ssid": "Pramodjio4g1stfloor",
         "threats": [],
         "metrics": {
-            "max_rssi": -67.0,
-            "ssid_count": 6,
+            "max_rssi": -60.0,
+            "ssid_count": 4,
             "channel_overlap": 2,
             "ssid_repeats": 1
+        },
+        "signal_spike": {
+            "detected": true,
+            "max_spike": 15
         }
     },
     {
         "position": "P3",
-        "risk": 15,
-        "ssid": "Varanasi",
-        "threats": [],
-        "metrics": {
-            "max_rssi": -67.0,
-            "ssid_count": 2,
-            "channel_overlap": 1,
-            "ssid_repeats": 1
-        }
-    },
-    {
-        "position": "P4",
-        "risk": 45,
-        "ssid": "Airtel_sugu_5067",
-        "threats": [
-            "Channel Overlap"
-        ],
-        "metrics": {
-            "max_rssi": -62.0,
-            "ssid_count": 6,
-            "channel_overlap": 3,
-            "ssid_repeats": 1
-        }
-    },
-    {
-        "position": "P5",
-        "risk": 35,
-        "ssid": "Airtel_sugu_5067",
-        "threats": [],
-        "metrics": {
-            "max_rssi": -61.0,
-            "ssid_count": 6,
-            "channel_overlap": 2,
-            "ssid_repeats": 1
-        }
-    },
-    {
-        "position": "P6",
-        "risk": 20,
-        "ssid": "Varanasi",
-        "threats": [],
-        "metrics": {
-            "max_rssi": -76.0,
-            "ssid_count": 6,
-            "channel_overlap": 2,
-            "ssid_repeats": 1
-        }
-    },
-    {
-        "position": "P7",
-        "risk": 45,
-        "ssid": "Airtel_sugu_5067",
-        "threats": [
-            "Channel Overlap"
-        ],
-        "metrics": {
-            "max_rssi": -64.0,
-            "ssid_count": 7,
-            "channel_overlap": 3,
-            "ssid_repeats": 1
-        }
-    },
-    {
-        "position": "P8",
-        "risk": 55,
-        "ssid": "Airtel_sugu_5067",
-        "threats": [
-            "Channel Overlap",
-            "Congestion"
-        ],
-        "metrics": {
-            "max_rssi": -60.0,
-            "ssid_count": 9,
-            "channel_overlap": 3,
-            "ssid_repeats": 1
-        }
-    },
-    {
-        "position": "P9",
         "risk": 35,
         "ssid": "Pramodjio4g1stfloor",
         "threats": [],
         "metrics": {
-            "max_rssi": -74.0,
-            "ssid_count": 6,
+            "max_rssi": -64.0,
+            "ssid_count": 5,
             "channel_overlap": 2,
             "ssid_repeats": 1
+        },
+        "signal_spike": {
+            "detected": false,
+            "max_spike": 0
+        }
+    },
+    {
+        "position": "P4",
+        "risk": 100,
+        "ssid": "Pramodjio4g1stfloor",
+        "threats": [
+            "Channel Overlap",
+            "Congestion",
+            "Evil Twin",
+            "Leakage"
+        ],
+        "metrics": {
+            "max_rssi": -49.0,
+            "ssid_count": 8,
+            "channel_overlap": 3,
+            "ssid_repeats": 2
+        },
+        "signal_spike": {
+            "detected": true,
+            "max_spike": 22
+        }
+    },
+    {
+        "position": "P5",
+        "risk": 70,
+        "ssid": "Pramodjio4g1stfloor",
+        "threats": [
+            "Channel Overlap",
+            "Congestion",
+            "Leakage"
+        ],
+        "metrics": {
+            "max_rssi": -46.0,
+            "ssid_count": 9,
+            "channel_overlap": 3,
+            "ssid_repeats": 1
+        },
+        "signal_spike": {
+            "detected": true,
+            "max_spike": 33
+        }
+    },
+    {
+        "position": "P6",
+        "risk": 70,
+        "ssid": "Pramodjio4g1stfloor",
+        "threats": [
+            "Channel Overlap",
+            "Congestion",
+            "Leakage"
+        ],
+        "metrics": {
+            "max_rssi": -50.0,
+            "ssid_count": 9,
+            "channel_overlap": 3,
+            "ssid_repeats": 1
+        },
+        "signal_spike": {
+            "detected": true,
+            "max_spike": 35
+        }
+    },
+    {
+        "position": "P7",
+        "risk": 50,
+        "ssid": "Pramodjio4g1stfloor",
+        "threats": [
+            "Leakage"
+        ],
+        "metrics": {
+            "max_rssi": -50.0,
+            "ssid_count": 7,
+            "channel_overlap": 2,
+            "ssid_repeats": 1
+        },
+        "signal_spike": {
+            "detected": true,
+            "max_spike": 29
+        }
+    },
+    {
+        "position": "P8",
+        "risk": 50,
+        "ssid": "Pramodjio4g1stfloor",
+        "threats": [
+            "Leakage"
+        ],
+        "metrics": {
+            "max_rssi": -35.0,
+            "ssid_count": 7,
+            "channel_overlap": 2,
+            "ssid_repeats": 1
+        },
+        "signal_spike": {
+            "detected": true,
+            "max_spike": 54
+        }
+    },
+    {
+        "position": "P9",
+        "risk": 70,
+        "ssid": "Pramodjio4g1stfloor",
+        "threats": [
+            "Channel Overlap",
+            "Congestion",
+            "Leakage"
+        ],
+        "metrics": {
+            "max_rssi": -41.0,
+            "ssid_count": 9,
+            "channel_overlap": 3,
+            "ssid_repeats": 1
+        },
+        "signal_spike": {
+            "detected": true,
+            "max_spike": 31
         }
     }
 ]

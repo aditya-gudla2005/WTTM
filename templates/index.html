@@ -10,21 +10,30 @@
 
 <div class="app">
 
-    <div class="map-section">
-        <h2>Wireless Threat Terrain Map</h2>
-        <div id="grid" class="grid"></div>
-    </div>
-
-    <div class="info-section">
+  <div class="map-section">
+    <h2>Wireless Threat Terrain Map</h2>
+    <div id="grid" class="grid"></div>
+    
+    <div class="action-buttons">
         <button id="resetBtn" class="reset-btn">New Survey</button>
         <button id="reportBtn" class="reset-btn">Download Report (PDF)</button>
-        
-        <h2>Detected Risks</h2>
-        <div id="details">
-            <p>Select a cell to view details</p>
-        </div>
-        <canvas id="rssiChart" width="300" height="150"></canvas>
     </div>
+  </div>
+
+  <div class="center-section">
+    <h2>Detected Risks</h2>
+
+    <div id="details">
+      <p>Select a cell to view details</p>
+    </div>
+
+    <canvas id="rssiChart" height="200"></canvas>
+  </div>
+
+  <div class="info-section">
+    <h2>Recent Alerts</h2>
+    <div id="alerts"></div>
+  </div>
 
 </div>
 

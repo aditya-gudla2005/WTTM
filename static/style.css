@@ -1,8 +1,14 @@
+/* Import modern technical fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap');
+
 body {
     margin: 0;
-    background: #0b0b0b;
+    /* Subtle radial gradient background to make glass pop */
+    background: radial-gradient(circle at top left, #1a1a1a, #0b0b0b);
     color: #eee;
-    font-family: "Segoe UI", sans-serif;
+    font-family: 'Inter', "Segoe UI", sans-serif;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .app {
@@ -12,24 +18,63 @@ body {
     gap: 30px;
 }
 
+/* =========================
+   Map Section & New Button Layout
+   ========================= */
 .map-section {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Overriding reset-btn to work in the new horizontal layout */
+.action-buttons .reset-btn {
+    width: auto;
+    flex: 1;
+    margin-bottom: 0; /* Removing the old bottom margin */
+}
+
+/* =========================
+   Glassmorphism Sections
+   ========================= */
+.center-section, .info-section {
+    background: rgba(255, 255, 255, 0.03); /* Translucent white */
+    backdrop-filter: blur(12px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Thin border highlight */
+    border-radius: 14px;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+.center-section {
+    flex: 1;
+    max-width: 520px;
 }
 
 .info-section {
     width: 380px;
-    background: #141414;
-    border-radius: 14px;
-    padding: 20px;
-    overflow-y: auto;
     overflow-x: visible; /* 🔑 allow tooltips to escape */
 }
 
 h2 {
     margin-top: 0;
     margin-bottom: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
+/* =========================
+   Grid & Cells
+   ========================= */
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 140px);
@@ -45,37 +90,57 @@ h2 {
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
 }
 
 .cell:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 18px rgba(255,255,255,0.15);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
 
-.high {
-    background: #c62828;
-}
+/* Glassy status colors */
+.high { background: rgba(198, 40, 40, 0.8); }
+.medium { background: rgba(239, 108, 0, 0.8); }
+.low { background: rgba(46, 125, 50, 0.8); }
 
-.medium {
-    background: #ef6c00;
-}
-
-.low {
-    background: #2e7d32;
-}
-
+/* =========================
+   Cards & Risk Bar
+   ========================= */
 .card {
-    background: #1c1c1c;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 15px;
     margin-bottom: 15px;
-    overflow: visible; /* 🔑 critical */
+    overflow: visible;
 }
+
+.risk-bar-container {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50px;
+    height: 10px;
+    margin: 12px 0;
+    overflow: hidden;
+}
+
+.risk-bar {
+    height: 100%;
+    border-radius: 50px;
+    transition: width 0.5s ease-in-out;
+}
+
+.risk-bar.high { background: linear-gradient(90deg, #ff5252, #b71c1c); box-shadow: 0 0 8px rgba(255, 82, 82, 0.5); }
+.risk-bar.medium { background: linear-gradient(90deg, #ff9800, #e65100); box-shadow: 0 0 8px rgba(255, 152, 0, 0.5); }
+.risk-bar.low { background: linear-gradient(90deg, #4caf50, #1b5e20); box-shadow: 0 0 8px rgba(76, 175, 80, 0.5); }
 
 .risk {
     font-weight: bold;
     margin: 6px 0;
+    background: none !important; 
+    padding: 0 !important;
 }
 
 .risk.high { color: #ff5252; }
@@ -83,13 +148,8 @@ h2 {
 .risk.low { color: #81c784; }
 
 /* =========================
-   Threat & Tooltip Styling
-   ========================= */
-
-/* =========================
    Threat List (Vertical)
    ========================= */
-
 .threat-list {
     margin-top: 10px;
     display: flex;
@@ -101,24 +161,16 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    background: #2a2a2a;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     color: #fff;
-
     padding: 8px 10px;
     border-radius: 10px;
     font-size: 13px;
-
     position: relative;
     overflow: visible;
 }
 
-/* Threat text */
-.threat-pill span.label {
-    flex: 1;
-}
-
-/* Info icon */
 .info-icon {
     font-size: 12px;
     color: #ff9800;
@@ -127,60 +179,78 @@ h2 {
     position: relative;
 }
 
-/* Tooltip */
-/* Tooltip - Flipped to the left to avoid edge cutoff */
+/* Tooltip - Fixed positioning for sidebar scroll */
 .info-icon::after {
     content: attr(data-tip);
-
     position: absolute;
     top: 50%;
-    right: 140%; /* 🔑 Changed from left: 120% to right: 140% */
-    left: auto;   /* 🔑 Ensure left is reset */
+    right: 160%; 
     transform: translateY(-50%);
-
-    background: #161616;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(22, 22, 22, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
     box-shadow: 0 8px 24px rgba(0,0,0,0.85);
-
     color: #fff;
     padding: 10px 12px;
     border-radius: 8px;
-
     font-size: 12px;
     line-height: 1.5;
-
-    min-width: 220px;
-    max-width: 280px; /* 🔑 Slightly reduced max-width for better sidebar fit */
-
+    min-width: 200px;
+    max-width: 240px;
     white-space: normal;
     word-wrap: break-word;
-
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
-
-    z-index: 9999;
+    z-index: 10000;
 }
+
 .info-icon:hover::after {
     opacity: 1;
 }
 
 /* =========================
-   Reset Button Styling
+   Buttons Styling
    ========================= */
 .reset-btn {
-    width: 100%;
-    background: #222;
+    background: rgba(255, 255, 255, 0.05);
     color: #ff9800;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 152, 0, 0.2);
     padding: 10px;
     border-radius: 10px;
     font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    margin-bottom: 12px;
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .reset-btn:hover {
-    background: #2a2a2a;
+    background: rgba(255, 152, 0, 0.1);
+    border-color: #ff9800;
+}
+
+/* =========================
+   Alert Panel Styling
+   ========================= */
+.alert {
+    background: rgba(30, 42, 54, 0.4);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 82, 82, 0.2);
+    border-left: 4px solid #ff5252;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    overflow: visible; 
+}
+
+.alert-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    color: #ff5252;
+    margin-bottom: 4px;
 }

@@ -15,18 +15,41 @@ const threatExplanations = {
     `SSID observed ${m.ssid_repeats} times with differing signal patterns, indicating a possible rogue AP.`
 };
 
+// ✅ Step 1: Define the spike tooltip text
+const spikeTooltip =
+  "Signal Spike: Sudden abnormal RSSI jump or drop (≥15 dBm) between consecutive samples. Represents a short-term RF event, not a sustained risk unless repeatedly observed.";
+
 // ===============================
-// Build Grid
+// Build Grid & Process Alerts
 // ===============================
 fetch("/data")
   .then(res => res.json())
   .then(data => {
     const grid = document.getElementById("grid");
     const details = document.getElementById("details");
+    const alertsBox = document.getElementById("alerts");
 
     grid.innerHTML = "";
+    alertsBox.innerHTML = ""; // Clear old alerts
 
     data.forEach(item => {
+      // --- NEW: Signal Spike Logic with Technical Font Wrapping ---
+      if (item.signal_spike && item.signal_spike.detected) {
+        alertsBox.innerHTML += `
+          <div class="alert">
+            <div class="alert-title">
+              <span>⚠️ SIGNAL SPIKE</span>
+              <span class="info-icon" data-tip="${spikeTooltip}">ⓘ</span>
+            </div>
+            <div class="alert-body">
+              POS: ${item.position}<br>
+              JUMP: +${item.signal_spike.max_spike} dBm
+            </div>
+          </div>
+        `;
+      }
+
+      // --- Grid Generation ---
       const cell = document.createElement("div");
       cell.className = "cell";
 
@@ -37,7 +60,6 @@ fetch("/data")
       cell.textContent = item.position;
 
       cell.onclick = () => {
-        // HARD SAFETY GUARD
         if (!item.metrics) {
           details.innerHTML = `
             <div class="card">
@@ -48,15 +70,10 @@ fetch("/data")
           return;
         }
 
-        // ===============================
-        // Updated Threat pills with tooltips
-        // ===============================
         let threatsHtml = "";
-
         if (!item.threats || item.threats.length === 0) {
           threatsHtml = `<span class="no-threat">None Detected</span>`;
         } else {
-          // Wrapped label for better spacing control
           threatsHtml = item.threats.map(t => {
             const explain = threatExplanations[t]
               ? threatExplanations[t](item.metrics)
@@ -71,14 +88,16 @@ fetch("/data")
           }).join("");
         }
 
-        // ===============================
-        // Sidebar render
-        // ===============================
+        // --- UPDATED: Details Panel with Glassy Risk Bar ---
         details.innerHTML = `
           <div class="card">
             <h3>${item.position}</h3>
             <p><b>SSID:</b> ${item.ssid}</p>
             <p class="risk ${cell.classList[1]}">Risk Score: ${item.risk}</p>
+            
+            <div class="risk-bar-container">
+                <div class="risk-bar ${cell.classList[1]}" style="width: ${item.risk}%"></div>
+            </div>
 
             <div class="threats">
               <b>Threats:</b>
@@ -129,24 +148,28 @@ function drawRSSI(position) {
         options: {
           responsive: true,
           plugins: {
-            legend: { labels: { color: "#eee" } }
+            legend: { labels: { color: "#eee", font: { family: "'Inter', sans-serif" } } }
           },
           scales: {
             y: {
               title: {
                 display: true,
                 text: "Signal Strength (dBm)",
-                color: "#eee"
+                color: "#eee",
+                font: { family: "'Inter', sans-serif" }
               },
-              grid: { color: "rgba(255,255,255,0.1)" }
+              grid: { color: "rgba(255,255,255,0.1)" },
+              ticks: { color: "#ccc", font: { family: "'JetBrains Mono', monospace" } }
             },
             x: {
               title: {
                 display: true,
                 text: "Samples",
-                color: "#eee"
+                color: "#eee",
+                font: { family: "'Inter', sans-serif" }
               },
-              grid: { display: false }
+              grid: { display: false },
+              ticks: { color: "#ccc", font: { family: "'JetBrains Mono', monospace" } }
             }
           }
         }
@@ -154,6 +177,10 @@ function drawRSSI(position) {
     })
     .catch(() => {});
 }
+
+// ===============================
+// Event Handlers
+// ===============================
 document.getElementById("resetBtn").onclick = () => {
   fetch("/reset", { method: "POST" })
     .then(res => res.json())
@@ -161,15 +188,14 @@ document.getElementById("resetBtn").onclick = () => {
       document.getElementById("grid").innerHTML = "";
       document.getElementById("details").innerHTML =
         "<p>Select a cell to view details</p>";
-
       if (chart) {
         chart.destroy();
         chart = null;
       }
-
       location.reload();
     });
 };
+
 document.getElementById("reportBtn").onclick = () => {
   window.open("/report", "_blank");
 };

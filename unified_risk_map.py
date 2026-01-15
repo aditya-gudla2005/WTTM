@@ -11,22 +11,26 @@ def clean_ssid(ssid):
     """Filters out hidden, short, or corrupted SSIDs."""
     if not isinstance(ssid, str):
         return None
-
     ssid = ssid.strip()
-
-    # Drop very short or garbage SSIDs
     if len(ssid) < 3:
         return None
-
-    # Drop corrupted / non-printable SSIDs
     if not ssid.isprintable():
         return None
-
-    # Ignore hidden-like labels
     if ssid.lower() in ["hidden", "<hidden>", "unknown"]:
         return None
-
     return ssid
+
+def detect_signal_spike(rssi_series, threshold=15):
+    """Detects sudden jumps in signal strength."""
+    spikes = []
+    for i in range(1, len(rssi_series)):
+        diff = rssi_series[i] - rssi_series[i - 1]
+        if diff >= threshold:
+            spikes.append(diff)
+    return {
+        "detected": len(spikes) > 0,
+        "max_spike": max(spikes) if spikes else 0
+    }
 
 try:
     df = pd.read_csv(
@@ -34,9 +38,9 @@ try:
         names=["position", "ssid", "rssi", "channel"]
     )
 
-    # Apply SSID cleaning immediately
-    df["ssid"] = df["ssid"].apply(clean_ssid)   # 🔑 Applied fix
-    df = df.dropna(subset=["ssid"])              # 🔑 Removed invalid SSIDs
+    # Apply SSID cleaning
+    df["ssid"] = df["ssid"].apply(clean_ssid)
+    df = df.dropna(subset=["ssid"])
 
     df["rssi"] = pd.to_numeric(df["rssi"], errors="coerce")
     df["channel"] = pd.to_numeric(df["channel"], errors="coerce")
@@ -94,19 +98,10 @@ def compute_risk(df_pos):
 # ==========================================
 def build_label(df_pos, risk):
     top = df_pos.sort_values("rssi", ascending=False).iloc[0]
-
-    if risk > 60:
-        level = "HIGH"
-    elif risk > 30:
-        level = "MEDIUM"
-    else:
-        level = "LOW"
-
+    level = "HIGH" if risk > 60 else "MEDIUM" if risk > 30 else "LOW"
     ssid = top["ssid"]
     short_ssid = ssid[:10] + "…" if len(ssid) > 10 else ssid
-    label = f"{level}\n{short_ssid}"
-
-    return label
+    return f"{level}\n{short_ssid}"
 
 # ==========================================
 # STEP 4: GRID + METADATA GENERATION
@@ -130,36 +125,35 @@ for idx, pos in enumerate(positions):
     risk, threats, metrics = compute_risk(df_pos)
     label = build_label(df_pos, risk)
 
-    top_ssid = df_pos.sort_values("rssi", ascending=False).iloc[0]["ssid"]
+    # Spike detection
+    rssi_series = df_pos["rssi"].tolist()
+    spike_info = detect_signal_spike(rssi_series)
 
+    # Update metadata block
     cell_metadata[pos] = {
-        "position": pos,
         "risk": risk,
-        "ssid": top_ssid,
+        "label": label,
+        "top_ssid": df_pos.sort_values("rssi", ascending=False).iloc[0]["ssid"],
         "threats": threats,
-        "metrics": metrics
+        "metrics": metrics,
+        "signal_spike": spike_info
     }
 
     risk_grid[row, col] = risk
     label_grid[row][col] = label
 
 # ==========================================
-# STEP 5: HEATMAP IMAGE (OPTIONAL)
+# STEP 5: HEATMAP IMAGE
 # ==========================================
 def generate_map_image(output_path="static/risk_map.png"):
     plt.figure(figsize=(10, 10))
     plt.imshow(risk_grid, cmap="RdYlBu_r", vmin=0, vmax=100)
-
     for i in range(grid_size):
         for j in range(grid_size):
             if label_grid[i][j]:
                 color = "black" if 30 < risk_grid[i, j] < 70 else "white"
-                plt.text(j, i, label_grid[i][j],
-                         ha="center", va="center",
-                         fontsize=11, fontweight="bold", color=color)
-
-    plt.xticks([])
-    plt.yticks([])
+                plt.text(j, i, label_grid[i][j], ha="center", va="center", fontsize=11, fontweight="bold", color=color)
+    plt.xticks([]); plt.yticks([])
     plt.title("WTTM – Unified Wireless Threat Terrain", fontsize=16)
     plt.colorbar(label="Risk Score (0–100)")
     plt.tight_layout()
@@ -170,7 +164,16 @@ def generate_map_image(output_path="static/risk_map.png"):
 # STEP 6: EXPORT JSON FOR DASHBOARD
 # ==========================================
 def export_metadata():
-    export = list(cell_metadata.values())
+    export = []
+    for pos, meta in cell_metadata.items():
+        export.append({
+            "position": pos,
+            "risk": meta["risk"],
+            "ssid": meta["top_ssid"],
+            "threats": meta["threats"],
+            "metrics": meta["metrics"],
+            "signal_spike": meta["signal_spike"]
+        })
     with open("risk_metadata.json", "w") as f:
         json.dump(export, f, indent=4)
 
@@ -180,4 +183,4 @@ def export_metadata():
 if __name__ == "__main__":
     generate_map_image()
     export_metadata()
-    print("WTTM map + metadata generated successfully (SSID cleaning applied)")
+    print("WTTM map + metadata generated successfully (SSID cleaning + Spike detection applied)")
