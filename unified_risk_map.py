@@ -4,17 +4,44 @@ import matplotlib.pyplot as plt
 import json
 
 # ==========================================
-# STEP 1: DYNAMIC DATA LOADING
+# STEP 1: HELPERS & DATA LOADING
 # ==========================================
+
+def clean_ssid(ssid):
+    """Filters out hidden, short, or corrupted SSIDs."""
+    if not isinstance(ssid, str):
+        return None
+
+    ssid = ssid.strip()
+
+    # Drop very short or garbage SSIDs
+    if len(ssid) < 3:
+        return None
+
+    # Drop corrupted / non-printable SSIDs
+    if not ssid.isprintable():
+        return None
+
+    # Ignore hidden-like labels
+    if ssid.lower() in ["hidden", "<hidden>", "unknown"]:
+        return None
+
+    return ssid
+
 try:
     df = pd.read_csv(
         "wifi_data.csv",
         names=["position", "ssid", "rssi", "channel"]
     )
 
+    # Apply SSID cleaning immediately
+    df["ssid"] = df["ssid"].apply(clean_ssid)   # 🔑 Applied fix
+    df = df.dropna(subset=["ssid"])              # 🔑 Removed invalid SSIDs
+
     df["rssi"] = pd.to_numeric(df["rssi"], errors="coerce")
     df["channel"] = pd.to_numeric(df["channel"], errors="coerce")
-    df = df.dropna(subset=["position", "ssid", "rssi"])
+    df = df.dropna(subset=["position", "rssi"])
+    
 except FileNotFoundError:
     print("Error: 'wifi_data.csv' not found. Please run a capture first.")
     exit()
@@ -153,4 +180,4 @@ def export_metadata():
 if __name__ == "__main__":
     generate_map_image()
     export_metadata()
-    print("WTTM map + metadata generated successfully")
+    print("WTTM map + metadata generated successfully (SSID cleaning applied)")

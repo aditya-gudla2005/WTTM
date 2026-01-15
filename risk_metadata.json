@@ -1,133 +1,115 @@
 [
     {
         "position": "P1",
-        "risk": 60,
+        "risk": 35,
         "ssid": "Pramodjio4g1stfloor",
-        "threats": [
-            "Congestion",
-            "Leakage"
-        ],
+        "threats": [],
         "metrics": {
-            "max_rssi": -46.0,
-            "ssid_count": 8,
+            "max_rssi": -67.0,
+            "ssid_count": 4,
             "channel_overlap": 2,
             "ssid_repeats": 1
         }
     },
     {
         "position": "P2",
-        "risk": 50,
+        "risk": 35,
         "ssid": "Pramodjio4g1stfloor",
-        "threats": [
-            "Leakage"
-        ],
+        "threats": [],
         "metrics": {
-            "max_rssi": -58.0,
-            "ssid_count": 7,
+            "max_rssi": -67.0,
+            "ssid_count": 6,
             "channel_overlap": 2,
             "ssid_repeats": 1
         }
     },
     {
         "position": "P3",
-        "risk": 50,
-        "ssid": "5067",
-        "threats": [
-            "Channel Overlap",
-            "Evil Twin"
-        ],
+        "risk": 15,
+        "ssid": "Varanasi",
+        "threats": [],
         "metrics": {
-            "max_rssi": -79.0,
-            "ssid_count": 1,
-            "channel_overlap": 75,
-            "ssid_repeats": 75
+            "max_rssi": -67.0,
+            "ssid_count": 2,
+            "channel_overlap": 1,
+            "ssid_repeats": 1
         }
     },
     {
         "position": "P4",
-        "risk": 100,
-        "ssid": "Pramodjio4g1stfloor",
+        "risk": 45,
+        "ssid": "Airtel_sugu_5067",
         "threats": [
-            "Channel Overlap",
-            "Congestion",
-            "Evil Twin",
-            "Leakage"
+            "Channel Overlap"
         ],
         "metrics": {
-            "max_rssi": -48.0,
-            "ssid_count": 8,
+            "max_rssi": -62.0,
+            "ssid_count": 6,
             "channel_overlap": 3,
-            "ssid_repeats": 2
+            "ssid_repeats": 1
         }
     },
     {
         "position": "P5",
-        "risk": 50,
-        "ssid": "Pramodjio4g1stfloor",
-        "threats": [
-            "Leakage"
-        ],
+        "risk": 35,
+        "ssid": "Airtel_sugu_5067",
+        "threats": [],
         "metrics": {
-            "max_rssi": -46.0,
-            "ssid_count": 5,
+            "max_rssi": -61.0,
+            "ssid_count": 6,
             "channel_overlap": 2,
             "ssid_repeats": 1
         }
     },
     {
         "position": "P6",
-        "risk": 60,
-        "ssid": "Pramodjio4g1stfloor",
-        "threats": [
-            "Congestion",
-            "Leakage"
-        ],
+        "risk": 20,
+        "ssid": "Varanasi",
+        "threats": [],
         "metrics": {
-            "max_rssi": -55.0,
-            "ssid_count": 8,
+            "max_rssi": -76.0,
+            "ssid_count": 6,
             "channel_overlap": 2,
             "ssid_repeats": 1
         }
     },
     {
         "position": "P7",
-        "risk": 70,
-        "ssid": "Pramodjio4g1stfloor",
+        "risk": 45,
+        "ssid": "Airtel_sugu_5067",
         "threats": [
-            "Channel Overlap",
-            "Congestion",
-            "Leakage"
+            "Channel Overlap"
         ],
         "metrics": {
-            "max_rssi": -46.0,
-            "ssid_count": 8,
+            "max_rssi": -64.0,
+            "ssid_count": 7,
             "channel_overlap": 3,
             "ssid_repeats": 1
         }
     },
     {
         "position": "P8",
-        "risk": 35,
+        "risk": 55,
         "ssid": "Airtel_sugu_5067",
-        "threats": [],
+        "threats": [
+            "Channel Overlap",
+            "Congestion"
+        ],
         "metrics": {
-            "max_rssi": -69.0,
-            "ssid_count": 5,
-            "channel_overlap": 2,
+            "max_rssi": -60.0,
+            "ssid_count": 9,
+            "channel_overlap": 3,
             "ssid_repeats": 1
         }
     },
     {
         "position": "P9",
-        "risk": 60,
+        "risk": 35,
         "ssid": "Pramodjio4g1stfloor",
-        "threats": [
-            "Congestion",
-            "Leakage"
-        ],
+        "threats": [],
         "metrics": {
-            "max_rssi": -57.0,
-            "ssid_count": 8,
+            "max_rssi": -74.0,
+            "ssid_count": 6,
             "channel_overlap": 2,
             "ssid_repeats": 1
         }

@@ -154,3 +154,22 @@ function drawRSSI(position) {
     })
     .catch(() => {});
 }
+document.getElementById("resetBtn").onclick = () => {
+  fetch("/reset", { method: "POST" })
+    .then(res => res.json())
+    .then(() => {
+      document.getElementById("grid").innerHTML = "";
+      document.getElementById("details").innerHTML =
+        "<p>Select a cell to view details</p>";
+
+      if (chart) {
+        chart.destroy();
+        chart = null;
+      }
+
+      location.reload();
+    });
+};
+document.getElementById("reportBtn").onclick = () => {
+  window.open("/report", "_blank");
+};
